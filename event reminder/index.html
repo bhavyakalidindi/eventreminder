@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Reminder</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            padding: 20px;
+            width: 90%;
+            max-width: 400px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        input, button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #007bff;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .event-list {
+            margin-top: 20px;
+            max-height: 250px;
+            overflow-y: auto;
+            padding: 10px;
+            border-radius: 8px;
+        }
+
+        .event-card {
+            background: #ffffff;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 6px solid #007bff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            position: relative;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeIn 0.3s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .event-card h3 {
+            margin: 0;
+            font-size: 18px;
+            color: #333;
+        }
+
+        .event-card p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .delete-btn {
+            background: red;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            cursor: pointer;
+            border-radius: 3px;
+            font-size: 14px;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            transition: 0.3s;
+        }
+
+        .delete-btn:hover {
+            background: darkred;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>📅 Event Reminder</h2>
+        <input type="text" id="eventName" placeholder="Enter Event Name">
+        <input type="date" id="eventDate">
+        <button onclick="addEvent()">Add Event</button>
+        <div class="event-list" id="eventList"></div>
+    </div>
+
+    <script>
+        function addEvent() {
+            const name = document.getElementById("eventName").value;
+            const date = document.getElementById("eventDate").value;
+
+            if (name === "" || date === "") {
+                alert("Please enter both event name and date.");
+                return;
+            }
+
+            const eventList = document.getElementById("eventList");
+
+            // Create event card
+            const eventCard = document.createElement("div");
+            eventCard.classList.add("event-card");
+            eventCard.innerHTML = `
+                <h3>${name}</h3>
+                <p>📅 Date: ${date}</p>
+                <button class="delete-btn" onclick="removeEvent(this)">Delete</button>
+            `;
+            eventList.appendChild(eventCard);
+
+            // Auto-scroll to show new event
+            eventList.scrollTop = eventList.scrollHeight;
+
+            // Clear inputs
+            document.getElementById("eventName").value = "";
+            document.getElementById("eventDate").value = "";
+        }
+
+        function removeEvent(button) {
+            button.parentElement.remove();
+        }
+    </script>
+
+</body>
+</html>
